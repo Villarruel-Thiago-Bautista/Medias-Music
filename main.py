@@ -10,6 +10,14 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+import os
+
+# Crear cookies.txt a partir de la variable de entorno
+cookie_path = 'cookies.json'
+if 'YTDL_COOKIES' in os.environ:
+    with open(cookie_path, 'w', encoding='utf-8') as f:
+        f.write(os.environ['YTDL_COOKIES'])
+
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
@@ -31,6 +39,7 @@ ytdl_options = {
     'ignoreerrors': True,
     'age_limit': None,
     'socket_timeout': 10,
+    'cookiefile': cookie_path
 }
 
 ffmpeg_options = {
