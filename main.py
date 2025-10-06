@@ -12,11 +12,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Generar cookies.json a partir de la variable de entorno
-cookies_path = os.path.join(os.getcwd(), 'cookies.txt')
-if 'YTDL_COOKIES' in os.environ and not os.path.exists(cookies_path):
-    with open(cookies_path, 'w', encoding='utf-8') as f:
-        json.dump(json.loads(os.environ['YTDL_COOKIES']), f)
+
+# Ruta al archivo de cookies secreto en Render
+cookies_path = "/run/secrets/cookies.txt"
+
+
+# Fallback para desarrollo local
+if not os.path.exists(cookies_path):
+    cookies_path = os.path.join(os.getcwd(), "cookies.txt")  # tu archivo local
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -39,7 +42,7 @@ ytdl_options = {
     'ignoreerrors': True,
     'age_limit': None,
     'socket_timeout': 10,
-    'cookiefile': cookies_path,
+    'cookiefile': cookies_path,  # aquí usamos la ruta correcta
 }
 
 ffmpeg_options = {
