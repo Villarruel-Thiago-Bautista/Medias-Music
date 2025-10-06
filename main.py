@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Generar cookies.json a partir de la variable de entorno
-cookies_path = os.path.join(os.getcwd(), 'cookies.json')
+cookies_path = os.path.join(os.getcwd(), 'cookies.txt')
 if 'YTDL_COOKIES' in os.environ and not os.path.exists(cookies_path):
     with open(cookies_path, 'w', encoding='utf-8') as f:
         json.dump(json.loads(os.environ['YTDL_COOKIES']), f)
