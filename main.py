@@ -7,16 +7,16 @@ import time
 from collections import OrderedDict
 import random
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
-import os
 
-# Crear cookies.txt a partir de la variable de entorno
-cookie_path = 'cookies.json'
-if 'YTDL_COOKIES' in os.environ:
-    with open(cookie_path, 'w', encoding='utf-8') as f:
-        f.write(os.environ['YTDL_COOKIES'])
+# Generar cookies.json a partir de la variable de entorno
+cookies_path = os.path.join(os.getcwd(), 'cookies.json')
+if 'YTDL_COOKIES' in os.environ and not os.path.exists(cookies_path):
+    with open(cookies_path, 'w', encoding='utf-8') as f:
+        json.dump(json.loads(os.environ['YTDL_COOKIES']), f)
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -39,7 +39,7 @@ ytdl_options = {
     'ignoreerrors': True,
     'age_limit': None,
     'socket_timeout': 10,
-    'cookiefile': cookie_path
+    'cookiefile': cookies_path,
 }
 
 ffmpeg_options = {
